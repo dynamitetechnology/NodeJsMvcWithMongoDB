@@ -1,15 +1,23 @@
 const Phone =  require("../models/phone")
 
-exports.getPhone = (req, res, next) => {
+module.exports = {
 
-    const phone =  Phone.fetchAll();
-    console.log('phone',phone)
-    res.render('index')
+ getPhone: (req, res, next) => {
+
+    Phone.fetchAll().then(result => {
+       // console.log('phone',result)
+        res.render('index')
+    });
+   
+},
+
+savePhone: (req, res, next) => {
+  
+    const phone  = new Phone(req.body.fname, req.body.surname, req.body.company, req.body.phone, req.body.email)
+    phone.save().then(result => {
+        console.log('Pass',result)
+    });
+    res.json({status:"200",data:req.body})
 }
 
-exports.savePhone = (req, res, next) => {
-  
-    const phone  = new Phone(req.body.fname,req.body.surname,req.body.company,req.body.phone,req.body.email)
-    phone.save();
-    res.json({status:"200",data:req.body})
 }

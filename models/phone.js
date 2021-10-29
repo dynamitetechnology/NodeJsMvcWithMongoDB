@@ -1,5 +1,6 @@
-const phone  = [];
-module.exports = class Phone{
+const getDB = require("../utils/database").getDB
+
+class Phone{
 
     constructor(fname,surname,company,phone,email){
         this.fname = fname;
@@ -10,11 +11,19 @@ module.exports = class Phone{
     }
 
     save(){
-        phone.push(this)
+        const db = getDB()
+       return db.collection('phone').insertOne(this).then(result =>{
+            console.log('Result',result)
+        }).catch(err => {
+            console.log('err',err)
+        })
     }
 
     static fetchAll(){
-        return phone;
+        const db = getDB()
+        return db.collection('phone').find().toArray().then(result => { console.log('Result',result) ; return result;}).catch(err=>{console.log(err)});
     }
 
 }
+
+module.exports = Phone
