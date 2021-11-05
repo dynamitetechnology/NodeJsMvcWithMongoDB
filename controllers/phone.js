@@ -2,12 +2,11 @@ const Phone =  require("../models/phone")
 
 module.exports = {
 
- getPhone: (req, res, next) => {
+ getPhone: async(req, res, next) => {
 
-    Phone.fetchAll().then(result => {
-       // console.log('phone',result)
-        res.render('index')
-    });
+   let result = await Phone.fetchAll()
+    console.log('phone',result)
+    res.render('index',{phone:result})
    
 },
 

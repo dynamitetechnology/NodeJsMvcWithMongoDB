@@ -44,10 +44,12 @@
       </div>
 
 
-      <% for(let i=1;i<=10;i++){%>
+      <% let list; for(list of phone){%>
         <div class="card rounded-0 mt-2 phonecard">
             <div class="card-body cardfont">
-              This is some text within a card body.
+              
+           <%= list.fname %>
+           <%= list.surname %>
             </div>
           </div>
         <%}%>

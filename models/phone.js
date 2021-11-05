@@ -1,29 +1,37 @@
 const getDB = require("../utils/database").getDB
 
-class Phone{
+class Phone {
 
-    constructor(fname,surname,company,phone,email){
+    constructor(fname, surname, company, phone, email) {
         this.fname = fname;
-        this.surname =surname;
+        this.surname = surname;
         this.company = company;
         this.phone = phone;
-        this.email= email;
+        this.email = email;
     }
 
-    save(){
+    save() {
         const db = getDB()
-       return db.collection('phone').insertOne(this).then(result =>{
-            console.log('Result',result)
+        return db.collection('phone').insertOne(this).then(result => {
+            console.log('Result', result)
         }).catch(err => {
-            console.log('err',err)
+            console.log('err', err)
         })
     }
 
-    static fetchAll(){
+  static fetchAll() {
         const db = getDB()
-        return db.collection('phone').find().toArray().then(result => { console.log('Result',result) ; return result;}).catch(err=>{console.log(err)});
+        const promise = new Promise((resolve, reject) => {
+            db.collection('phone').find().sort({fname:'desc'}).toArray().then(result => {
+              //  console.log('Result', result);
+                return  resolve(result);
+            }).catch(err => {
+                console.log(err)
+                return reject(err)
+            });
+        });
+        return promise;
     }
-
 }
 
 module.exports = Phone
